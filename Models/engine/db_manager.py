@@ -6,6 +6,12 @@ with a MySQL database for a stock management system.
 """
 
 import mysql.connector
+connection = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='mjabush@!33',
+    database='e-payment'
+)
 
 class Database:
     """
@@ -35,10 +41,15 @@ class Database:
         """
         cursor = self.db_connection.cursor()
         insert_query = """
-            INSERT INTO users(first_name, last_name, email, phone, department, role, username, password)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO users(first_name, last_name, email, phone, role, username, password)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(insert_query, (user.first_name, user.last_name, user.email, user.phone,
-                                      user.department, user.role, user.username, user.password))
+        cursor.execute(insert_query, (user.first_name, user.last_name, user.email, user.phone, user.role, user.username, user.password))
         self.db_connection.commit()
         cursor.close()
+
+    def close_connection(self):
+        """
+        Close the database connection.
+        """
+        self.db_connection.close()

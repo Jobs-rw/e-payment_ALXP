@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
-
 app = Flask(__name__)
 
 users = {
-    'user1': 'password1',
-    'user2': 'password2'
+    'user': 'root',
+    'password': 'jobs123',
+    'host': 'localhost',
+    'database': 'e-payment',
 }
 
 @app.route('/')

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+from Models.engine.db_manager import Database
 app = Flask(__name__)
 
 users = {
@@ -24,4 +24,4 @@ def login():
         return render_template('login.html', message='Invalid credentials. Please try again.')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run( host='0.0.0.0', debug=True)

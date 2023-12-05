@@ -1,5 +1,5 @@
-from models.enigine.db_manager import Database
-from models.engine.user import User
+from Models.engine.db_manager import Database
+from Models.user import User
 
 class UserManager:
     """

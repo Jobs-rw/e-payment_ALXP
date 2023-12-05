@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for
+<<<<<<< HEAD
 from Models.engine.db_manager import Database
+=======
+>>>>>>> f0e3c232cbd21334ba73fc94f9e388400327a73f
 app = Flask(__name__)
 
 users = {
-    'user1': 'password1',
-    'user2': 'password2'
+    'user': 'root',
+    'password': 'jobs123',
+    'host': 'localhost',
+    'database': 'e-payment',
 }
 
 @app.route('/')

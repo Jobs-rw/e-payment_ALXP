@@ -1,5 +1,5 @@
-from Models.engine.db_manager import Database
-from Models.user import User
+from engine.db_manager import Database
+from user import User
 
 class UserManager:
     """
@@ -38,7 +38,7 @@ class UserManager:
             return "Registration failed. Please try again later."
 
 
-    def login_user(self, email, password):
+    def login_user(self, username, password):
         """
         Authenticate a user's login and return a success message or an error message.
 
@@ -50,12 +50,12 @@ class UserManager:
             str: A login success message or an error message.
         """
         # Retrieve the user's information from the database
-        user_data = self.db.fetch_one("SELECT * FROM users WHERE email = %s", (email,))
+        user_data = self.db.fetch_one("SELECT * FROM users WHERE username = %s", (username,))
         print("User data:", user_data)
 
         if user_data is not None:
             # The 'fetch_one' method likely returns a tuple, so you should access elements by index
-            db_password = user_data[2]  # Assuming that the password is at the 6th position (0-based index) in the tuple
+            db_password = user_data[7]  # Assuming that the password is at the 7th position (0-based index) in the tuple
             role = user_data[4]
 
             if db_password == password:

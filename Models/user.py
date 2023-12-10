@@ -21,7 +21,7 @@ class User(BaseModel):
         password (str): The user's password.
     """
 
-    def __init__(self, email, password, first_name=None, last_name=None, phone=None, role=None, username=None):
+    def __init__(self,email, password, first_name=None, last_name=None, phone=None, role=None, username=None):
         """
         Initialize a User object.
 
@@ -42,3 +42,4 @@ class User(BaseModel):
         self.role = role
         self.username = username
         self.password = password
+        self.id = id

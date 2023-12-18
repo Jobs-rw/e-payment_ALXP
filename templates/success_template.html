@@ -1,0 +1,20 @@
+<!-- success_template.html -->
+
+<h2>Success</h2>
+
+<p>The new customer has been saved.</p>
+
+<script>
+    // Add JavaScript code for confirmation
+    var confirmed = confirm("Do you want to continue?");
+    if (confirmed) {
+        // Check if redirect_url is defined and not empty
+        if ("{{ redirect_url }}" && "{{ redirect_url }}".trim() !== "") {
+            window.location.href = "{{ redirect_url }}";
+        } else {
+            window.location.href = "{{ url_for('login') }}";  // Redirect to the login page if redirect_url is not defined
+        }
+    } else {
+        window.location.href = "{{ url_for('index') }}";  // Redirect to another page if needed
+    }
+</script>

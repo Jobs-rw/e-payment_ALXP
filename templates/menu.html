@@ -1,0 +1,30 @@
+{% extends 'header.html' %}
+
+{% block content %}
+    <!-- Your other template content goes here -->
+    <!-- Include the Dropdown Button Section here -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if role in ['admin', 'user'] %}
+                <div class="card">
+                    <div class="card-body text-center">
+                        <label for="menu">Select an option:</label>
+                        <select id="menu" class="form-control" onchange="window.location.href=this.value">
+                            {% if role == 'admin' %}
+                            <option value="#">Admin Options</option>
+                            <option value="UserActionController">Users</option>
+                            <!-- Add other admin links -->
+                            {% elif role == 'user' %}
+                            <option value="#">User Options</option>
+                            <option value="ProduitServlet">Product Operation</option>
+                            <!-- Add other user links -->
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

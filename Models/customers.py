@@ -1,4 +1,4 @@
-from base_model import BaseModel
+#from base_model import BaseModel
 
 """
 Module: customers
@@ -6,7 +6,7 @@ Module: customers
 This module defines the User class, which represents a user in the stock management system.
 """
 
-class Customer(BaseModel):
+class Customer():
     """
     Represents a customer in recovery  management system.
 
@@ -20,7 +20,7 @@ class Customer(BaseModel):
         last_update(datetime) customer's  date updated.
     """
 
-    def __init__(self,email, first_name,last_name, phone, active, create_date, last_update):
+    def __init__(self, first_name,last_name, email, active):
         """
         Initialize a User object.
 
@@ -37,9 +37,4 @@ class Customer(BaseModel):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.phone = phone
         self.active = active
-        self.create_date = create_date
-        self.last_update = last_update
-        self.id = id
-

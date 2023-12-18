@@ -1,0 +1,19 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Emei </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register_style.css') }}">
+</head>
+<body class="selected-body">
+    <h1>Register</h1>
+    <form method="POST" action="/search_emei">
+	<label for=EMEI">GPS EMEI:</label>
+        <input type="number" id="EMEI" name="EMEI" required><br>
+        <input type="submit" class="button" value="Search">
+    </form>
+
+    <p>Back <a href="/">Click Here</a></p>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<html><head>
+<title>user_manager.py</title>
+<meta name="Generator" content="htmlizer/[Twisted, version 18.9.0]" />
+<link rel="alternate" href="user_manager.py" type="text/x-python" />
+
+</head>
+<body>
+<pre><span class="py-src-variable">from</span> <span class="py-src-variable">db_manager</span> <span class="py-src-variable">import</span> <span class="py-src-variable">Database</span>
+<span class="py-src-variable">from</span> <span class="py-src-variable">user</span> <span class="py-src-variable">import</span> <span class="py-src-variable">User</span>
+
+<span class="py-src-variable">class</span> <span class="py-src-identifier">UserManager</span>:
+    <span class="py-src-string">&quot;&quot;&quot;
+    A class for managing user registration and login.
+
+    Attributes:
+        db (Database): An instance of the Database class for database interactions.
+    &quot;&quot;&quot;</span>
+
+    <span class="py-src-variable">def</span> <span class="py-src-identifier">__init__</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">db_config</span>):
+        <span class="py-src-string">&quot;&quot;&quot;
+        Initialize the UserManager with a database connection.
+        &quot;&quot;&quot;</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">db</span> = <span class="py-src-variable">Database</span>(<span class="py-src-variable">db_config</span>)
+    <span class="py-src-variable">def</span> <span class="py-src-identifier">register_user</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">user</span>):
+        <span class="py-src-string">&quot;&quot;&quot;
+        Register a new user with the provided User object and store their information in the database.
+
+        Args:
+            user (User): User object with attributes like email and password.
+
+        Returns:
+            str: A registration success message or an error message.
+        &quot;&quot;&quot;</span>
+        <span class="py-src-comment"># Check if the user already exists</span>
+        <span class="py-src-variable">existing_user</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">db</span>.<span class="py-src-variable">fetch_one</span>(<span class="py-src-string">&quot;SELECT * FROM users WHERE username = %s&quot;</span>, (<span class="py-src-variable">user</span>.<span class="py-src-variable">username</span>,))
+        <span class="py-src-variable">if</span> <span class="py-src-variable">existing_user</span>:
+            <span class="py-src-variable">return</span> <span class="py-src-string">&quot;username already in use.&quot;</span>
+
+        <span class="py-src-comment"># Use the insert_user method to insert the new user into the database</span>
+        <span class="py-src-variable">try</span>:
+            <span class="py-src-variable">self</span>.<span class="py-src-variable">db</span>.<span class="py-src-variable">insert_user</span>(<span class="py-src-variable">user</span>)
+            <span class="py-src-variable">return</span> <span class="py-src-string">&quot;Registration successful!&quot;</span>
+        <span class="py-src-variable">except</span> <span class="py-src-variable">Exception</span> <span class="py-src-variable">as</span> <span class="py-src-variable">e</span>:
+            <span class="py-src-variable">print</span>(<span class="py-src-string">f&quot;Error registering user: {str(e)}&quot;</span>)
+            <span class="py-src-variable">return</span> <span class="py-src-string">&quot;Registration failed. Please try again later.&quot;</span>
+
+    <span class="py-src-variable">def</span> <span class="py-src-identifier">login_user</span>(<span class="py-src-parameter">self</span>, <span class="py-src-parameter">username</span>, <span class="py-src-parameter">password</span>):
+        <span class="py-src-string">&quot;&quot;&quot;
+        Authenticate a user&#x27;s login and return a success message or an error message.
+
+        Args:
+            email (str): User&#x27;s email address.
+            password (str): User&#x27;s password (plaintext).
+
+        Returns:
+            str: A login success message or an error message.
+        &quot;&quot;&quot;</span>
+        <span class="py-src-comment"># Retrieve the user&#x27;s information from the database</span>
+        <span class="py-src-variable">user_data</span> = <span class="py-src-variable">self</span>.<span class="py-src-variable">db</span>.<span class="py-src-variable">fetch_one</span>(<span class="py-src-string">&quot;SELECT * FROM users WHERE username = %s&quot;</span>, (<span class="py-src-variable">username</span>,))
+        <span class="py-src-variable">print</span>(<span class="py-src-string">&quot;User data:&quot;</span>, <span class="py-src-variable">user_data</span>)
+
+        <span class="py-src-variable">if</span> <span class="py-src-variable">user_data</span> <span class="py-src-variable">is</span> <span class="py-src-variable">not</span> <span class="py-src-variable">None</span>:
+            <span class="py-src-comment"># The &#x27;fetch_one&#x27; method likely returns a tuple, so you should access elements by index</span>
+            <span class="py-src-variable">db_password</span> = <span class="py-src-variable">user_data</span>[<span class="py-src-number">7</span>]  <span class="py-src-comment"># Assuming that the password is at the 7th position (0-based index) in the tuple</span>
+            <span class="py-src-variable">role</span> = <span class="py-src-variable">user_data</span>[<span class="py-src-number">4</span>]
+
+            <span class="py-src-variable">if</span> <span class="py-src-variable">db_password</span> == <span class="py-src-variable">password</span>:
+                <span class="py-src-variable">return</span> <span class="py-src-string">&quot;Login successful!&quot;</span>, <span class="py-src-variable">user_data</span>  <span class="py-src-comment"># Return both the success message and user data</span>
+            <span class="py-src-variable">else</span>:
+                <span class="py-src-variable">return</span> <span class="py-src-string">&quot;Incorrect password.&quot;</span>
+        <span class="py-src-variable">else</span>:
+            <span class="py-src-variable">return</span> <span class="py-src-string">&quot;username not found.&quot;</span>
+        
+    <span class="py-src-variable">def</span> <span class="py-src-identifier">close_database_connection</span>(<span class="py-src-parameter">self</span>):
+        <span class="py-src-string">&quot;&quot;&quot;
+        Close the database connection when it&#x27;s no longer needed.
+        &quot;&quot;&quot;</span>
+        <span class="py-src-variable">self</span>.<span class="py-src-variable">db</span>.<span class="py-src-variable">close</span>()
+</pre>
+</body>

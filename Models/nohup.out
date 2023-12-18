@@ -1,0 +1,96 @@
+[2023-12-10 19:26:59 +0000] [105141] [INFO] Starting gunicorn 21.2.0
+[2023-12-10 19:26:59 +0000] [105141] [INFO] Listening at: http://127.0.0.1:8000 (105141)
+[2023-12-10 19:26:59 +0000] [105141] [INFO] Using worker: sync
+[2023-12-10 19:26:59 +0000] [105149] [INFO] Booting worker with pid: 105149
+[2023-12-10 19:29:30 +0000] [105141] [INFO] Handling signal: term
+[2023-12-10 19:29:30 +0000] [105149] [INFO] Worker exiting (pid: 105149)
+[2023-12-10 19:29:30 +0000] [105141] [INFO] Shutting down: Master
+[2023-12-10 19:30:03 +0000] [105950] [INFO] Starting gunicorn 21.2.0
+[2023-12-10 19:30:03 +0000] [105950] [INFO] Listening at: http://127.0.0.1:8000 (105950)
+[2023-12-10 19:30:03 +0000] [105950] [INFO] Using worker: sync
+[2023-12-10 19:30:03 +0000] [105958] [INFO] Booting worker with pid: 105958
+[2023-12-11 10:13:07,527] ERROR in app: Exception on /login [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/e-payment_ALXP/Models/app.py", line 92, in login
+    login_result, user_data = user_manager.login_user(username, password)
+ValueError: too many values to unpack (expected 2)
+[2023-12-11 10:13:23,494] ERROR in app: Exception on /login [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/e-payment_ALXP/Models/app.py", line 92, in login
+    login_result, user_data = user_manager.login_user(username, password)
+ValueError: too many values to unpack (expected 2)
+[2023-12-11 10:14:13,143] ERROR in app: Exception on /login [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/e-payment_ALXP/Models/app.py", line 92, in login
+    login_result, user_data = user_manager.login_user(username, password)
+ValueError: too many values to unpack (expected 2)
+[2023-12-11 10:19:23,768] ERROR in app: Exception on /login [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/e-payment_ALXP/Models/app.py", line 92, in login
+    login_result, user_data = user_manager.login_user(username, password)
+ValueError: too many values to unpack (expected 2)
+[2023-12-11 10:19:48,869] ERROR in app: Exception on /login [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/e-payment_ALXP/Models/app.py", line 92, in login
+    login_result, user_data = user_manager.login_user(username, password)
+ValueError: too many values to unpack (expected 2)
+[2023-12-11 10:30:47 +0000] [105958] [INFO] Worker exiting (pid: 105958)
+jobs
+jobs123
+User data: (1, 'Jobs', 'SHUMBUSHO', 'mjabush@yahoo.fr', '0788683270', 'admin', 'jobs', '123')
+jobs
+jobs123
+User data: (1, 'Jobs', 'SHUMBUSHO', 'mjabush@yahoo.fr', '0788683270', 'admin', 'jobs', '123')
+jobs
+jobs123
+User data: (1, 'Jobs', 'SHUMBUSHO', 'mjabush@yahoo.fr', '0788683270', 'admin', 'jobs', '123')
+jobs
+jobs123
+User data: (1, 'Jobs', 'SHUMBUSHO', 'mjabush@yahoo.fr', '0788683270', 'admin', 'jobs', '123')
+jobs
+jobs123
+User data: (1, 'Jobs', 'SHUMBUSHO', 'mjabush@yahoo.fr', '0788683270', 'admin', 'jobs', '123')
+[2023-12-11 10:30:48 +0000] [347013] [INFO] Booting worker with pid: 347013
+[2023-12-11 10:31:20 +0000] [105950] [INFO] Handling signal: term
+[2023-12-11 10:31:20 +0000] [347013] [INFO] Worker exiting (pid: 347013)
+[2023-12-11 10:31:20 +0000] [105950] [INFO] Shutting down: Master

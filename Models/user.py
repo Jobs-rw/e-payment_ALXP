@@ -1,4 +1,4 @@
-from base_model import BaseModel
+#from base_model import BaseModel
 
 """
 Module: user
@@ -6,7 +6,7 @@ Module: user
 This module defines the User class, which represents a user in the stock management system.
 """
 
-class User(BaseModel):
+class User():
     """
     Represents a user in the stock management system.
 

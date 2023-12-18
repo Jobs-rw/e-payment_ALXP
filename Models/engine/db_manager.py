@@ -68,10 +68,25 @@ class Database:
         """
         cursor = self.db_connection.cursor()
         insert_query = """
-            INSERT INTO cutomers(first_name, last_name, email, phone, active,create_date,last_update )
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO customer(first_name, last_name, email, active)
+            VALUES (%s, %s, %s, %s)
         """
-        cursor.execute(insert_query, (customer.first_name, customer.last_name, customer.email, cutomer.phone, customer.active, customer.create_date,customer.last_update))
+        cursor.execute(insert_query, (customer.first_name, customer.last_name, customer.email, customer.active))
+        self.db_connection.commit()
+        cursor.close()
+    def Add_GPS(self, GPS):
+        """
+        Insert a new gps into the database.
+
+        Args:
+            GPS (GPSTracker): The gps object to be inserted into the database.
+        """
+        cursor = self.db_connection.cursor()
+        insert_query = """
+            INSERT INTO gps(EMEI, Model_Name, Activated_date, GPS_Experied_date)
+            VALUES (%s, %s, %s, %s)
+        """
+        cursor.execute(insert_query, (GPS.EMEI, GPS.Model_Name, GPS.Activated_date, GPS.GPS_Experied_date))
         self.db_connection.commit()
         cursor.close()
 

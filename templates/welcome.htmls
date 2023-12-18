@@ -1,0 +1,23 @@
+<!-- welcome.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <!-- Add any additional styles or links to CSS here -->
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>Welcome to Our Website!</h1>
+        <p>Choose an action below:</p>
+        <div class="button-container">
+            <a href="{{ url_for('some_route') }}" class="btn">Button 1</a>
+            <a href="{{ url_for('another_route') }}" class="btn">Button 2</a>
+            <!-- Add more buttons as needed -->
+        </div>
+    </div>
+    <!-- Add any additional scripts or links to JS here -->
+</body>
+</html>

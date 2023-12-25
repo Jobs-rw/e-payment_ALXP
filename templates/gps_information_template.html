@@ -1,0 +1,67 @@
+<!-- gps_information_template.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>GPS Information</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>GPS ID</th>
+                <th>EMEI</th>
+                <th>Model Name</th>
+                <th>Activated Date</th>
+                <th>GPS Expired Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                {% for gps_record in gps_data[:5] %}
+    <tr>
+        <td>{{ gps_record.gps_id }}</td>
+        <td>{{ gps_record.EMEI }}</td>
+        <td>{{ gps_record.Model_Name }}</td>
+        <td>{{ gps_record.Activated_date }}</td>
+        <td>{{ gps_record.GPS_Experied_date }}</td>
+    </tr>
+{% endfor %}
+
+                 </tr>
+        </tbody>
+    </table>
+</body>
+</html>

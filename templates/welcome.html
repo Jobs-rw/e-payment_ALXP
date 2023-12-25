@@ -17,15 +17,18 @@
 		
 </head>
 <body>
-    {% extends 'header.html' %}
+	{% extends 'header.html' %} 
     {% block content %}
         <div id="page" style="border:3px black double;">
             <!-- start content -->
             <div id="welcomeNote" align="center">
-                <h3>Hello, <span style="color:blue;">{{ user.username }}</span> Welcome to JQS Recovery and E-payment System</h3>
+	    <h3>Hello, <span style="color:blue;"{{ user.username }}</span> Welcome to JQS Recovery and E-payment System</h3>
             </div>
         </div>
     {% endblock %}
     <!-- Additional body elements can be added here -->
-</body>
+    <li><a href="/add_user">Add user</a></li>
+    <li><a href="/add_customer">Add customer></a></li>
+    <li><a href="register_tracker">Register Tracher</a></li>
+    <li><a href="/add_moto">Add customer></a></li>
 </html>

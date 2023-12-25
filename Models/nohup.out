@@ -94,3 +94,63 @@ User data: (1, 'Jobs', 'SHUMBUSHO', 'mjabush@yahoo.fr', '0788683270', 'admin', '
 [2023-12-11 10:31:20 +0000] [105950] [INFO] Handling signal: term
 [2023-12-11 10:31:20 +0000] [347013] [INFO] Worker exiting (pid: 347013)
 [2023-12-11 10:31:20 +0000] [105950] [INFO] Shutting down: Master
+[2023-12-22 10:55:10 +0000] [1527896] [INFO] Starting gunicorn 21.2.0
+[2023-12-22 10:55:10 +0000] [1527896] [INFO] Listening at: http://127.0.0.1:8000 (1527896)
+[2023-12-22 10:55:10 +0000] [1527896] [INFO] Using worker: sync
+[2023-12-22 10:55:10 +0000] [1527904] [INFO] Booting worker with pid: 1527904
+[2023-12-22 10:55:10 +0000] [1527904] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/util.py", line 371, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 973, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app'
+[2023-12-22 10:55:10 +0000] [1527904] [INFO] Worker exiting (pid: 1527904)
+[2023-12-22 10:55:10 +0000] [1527896] [ERROR] Worker (pid:1527904) exited with code 3
+[2023-12-22 10:55:10 +0000] [1527896] [ERROR] Shutting down: Master
+[2023-12-22 10:55:10 +0000] [1527896] [ERROR] Reason: Worker failed to boot.
+[2023-12-22 11:30:10 +0000] [1538522] [INFO] Starting gunicorn 21.2.0
+[2023-12-22 11:30:10 +0000] [1538522] [INFO] Listening at: http://127.0.0.1:8000 (1538522)
+[2023-12-22 11:30:10 +0000] [1538522] [INFO] Using worker: sync
+[2023-12-22 11:30:10 +0000] [1538530] [INFO] Booting worker with pid: 1538530
+[2023-12-22 11:30:10 +0000] [1538530] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/ubuntu/e-payment_ALXP/Models/venv/lib/python3.8/site-packages/gunicorn/util.py", line 371, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 973, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app'
+[2023-12-22 11:30:10 +0000] [1538530] [INFO] Worker exiting (pid: 1538530)
+[2023-12-22 11:30:10 +0000] [1538522] [ERROR] Worker (pid:1538530) exited with code 3
+[2023-12-22 11:30:10 +0000] [1538522] [ERROR] Shutting down: Master
+[2023-12-22 11:30:10 +0000] [1538522] [ERROR] Reason: Worker failed to boot.

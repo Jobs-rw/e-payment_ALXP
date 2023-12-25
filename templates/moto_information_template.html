@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moto Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Moto Information</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Moto ID</th>
+                <th>Plate</th>
+                <th>Model</th>
+                <th>Chassis Number</th>
+                <th>Engine Number</th>
+                <th>GPS ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for moto in moto_data %}
+                <tr>
+                    <td>{{ moto.moto_id }}</td>
+                    <td>{{ moto.plate }}</td>
+                    <td>{{ moto.Model }}</td>
+                    <td>{{ moto.Chassis_Number }}</td>
+                    <td>{{ moto.Engine_Number }}</td>
+                    <td>{{ moto.gps_id }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

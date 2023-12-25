@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from Models.engine.db_manager import Database
 from Models.engine.user_manager import UserManager
 from Models.user import User
@@ -8,9 +8,10 @@ from Models.customers import Customer
 from werkzeug.exceptions import BadRequest
 import os
 from Models.GPS import GPSTracker
+from Models.moto import Moto
 
 app = Flask(__name__)
-
+app.secret_key = 'Jobs777'
 
 # Retrieve database credentials from environment variables
 db_config = {
@@ -54,11 +55,66 @@ def insert_user():
         return render_template('registration_success.html')
     else:
         return render_template('register.html')
+@app.route('/update_user/<int:user_id>', methods=['GET', 'POST'])
+def update_user(user_id):
+    user = db.get_user_by_id(user_id)
+
+    if request.method != 'POST':
+        try:
+            # Validate form data
+            validate_user_form(request.form)
+
+            # Update user information in the database
+            # Retrieve form data and update the user object
+            user.first_name = request.form['first_name']
+            user.last_name = request.form['last_name']
+            user.email = request.form['email']
+            user.username = request.form['username']
+            user.role = request.form['role']
+            user.phone = request.form['phone']
+
+            """ Perform the update in the database"""
+            db.update_user(user)
+
+            # Flash a success message
+            flash('User information updated successfully!', 'success')
+
+            # Redirect to the updated user profile
+            return render_template('update_user.html', user=user)
+
+            #return redirect(url_for('user_profile', user_id=user.id))
+
+        except ValidationError as e:
+            # Flash an error message
+            flash(str(e), 'error')
+
+    #return render_template('update_user.html', user=user)
+    return redirect(url_for('user_profile', user_id=user.id))
+
+@app.route('/user_information', methods=['GET'])
+def user_information():
+    """this method help us to retrieve user information"""
+    db = Database(db_config)
+    user_data = db.get_user_data(db.db_connection)
+    db.close_connection()
+    return render_template('user_information_template.html', users=user_data)
+
+@app.route('/user_profile/<int:user_id>')
+def user_profile(user_id):
+    """"Fetch user data from the database based on user_id"""
+    user = get_user_by_id(user_id)
+
+    if user:
+        return render_template('user_profile.html', user=user)
+    else:
+        return render_template('user_not_found.html')
 
 @app.route('/add_customer', methods=['POST', 'GET'])
 def add_customer():
+    gps_records = None
+
     if request.method == 'POST':
-        # Check for the existence of required form fields
+        # Handle the POST request
         if all(field in request.form for field in ['first_name', 'last_name', 'email']):
             # Access form data
             first_name = request.form['first_name']
@@ -67,13 +123,18 @@ def add_customer():
             create_date = datetime.now()
             last_update = datetime.now()
             active = 'active' in request.form
+            gps_id = request.form.get('gps_id')
+            #gps_id = db.get_gps_id_by_EMEI(EMEI)
+            gps_records = db.get_all_gps_records()
+            print(gps_records)
 
-            # Create a Customer object with the form data
+            """ Create a Customer object with the form data"""
             customer = Customer(
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
                 active=active,
+                gps_id=gps_id
             )
 
             # Add the customer to the database
@@ -81,14 +142,61 @@ def add_customer():
             print(registration_result)
 
             # Redirect after successful form submission
-            return render_template('success_template.html', redirect_url=url_for('add_customer'))
-            #return f"The new customer has been saved"
+            return render_template('success_template.html', redirect_url=url_for('add_customer'), gps_records=gps_records)
         else:
             # Handle the case when required form fields are missing
             flash('Please fill out all required fields.')
             return redirect(url_for('add_customer'))
     else:
-        return render_template('add_customer.html')
+        # Handle the GET request
+        gps_records = db.get_all_gps_records()
+
+        if gps_records is not None:
+            return render_template('add_customer.html', available_gps_records=gps_records)
+        else:
+            flash('Failed to retrieve GPS records. Please try again later.')
+            return redirect(url_for('add_customer'))
+
+@app.route('/update_customer/<int:customer_id>', methods=['GET', 'POST'])
+def update_customer(customer_id):
+    if request.method == 'POST':
+        if all(field in request.form for field in ['first_name', 'last_name', 'email']):
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            email = request.form['email']
+            active = 'active' in request.form
+            update_result = db.update_customer(customer_id, first_name, last_name, email, active)
+            
+            if update_result:
+                flash('Customer information updated successfully.', 'success')
+                return redirect(url_for('customer_profile', customer_id=customer_id))
+            else:
+                flash('Error updating customer information. Please try again.', 'error')
+                return redirect(url_for('update_customer', customer_id=customer_id))
+        else:
+            """Handle the case when required form fields are missing"""
+            flash('Please fill out all required fields.', 'error')
+            return redirect(url_for('update_customer', customer_id=customer_id))
+    else:
+        """ Fetch existing customer data for pre-filling the form"""
+        customer = db.get_customer_by_id(customer_id)
+        if customer:
+            return render_template('update_customer.html', customer=customer)
+        else:
+            flash('Customer not found.', 'error')
+            return redirect(url_for('customer_list'))
+
+@app.route('/customer_information', methods=['GET'])
+def customer_information():
+    """this method will retrieve all customers on template"""
+    db = Database(db_config)
+    customers = db.get_all_customers()
+    db.close_connection()
+    return render_template('customer_information_template.html', customers=customers)
+
+@app.route('/welcome', methods=['POST', 'GET'])
+def welcome():
+    return render_template('dashboard.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -103,7 +211,7 @@ def login():
 
         if login_result == "Login successful!":
             # Authentication successful, redirect to a new page or perform further actions
-            return render_template('welcome.html', user={'username': username})
+            return render_template('dashboard.html', user={'username': username})
         else:
             # Authentication failed, redirect back to the login page with a message
             return render_template('login.html', message='Invalid credentials. Please try again.')
@@ -137,6 +245,66 @@ def tracker_registered(EMEI):
     tracker = db.fetch_one(query, (EMEI,))
     print(tracker)
     return render_template('tracker_registered.html', tracker=tracker)
+
+@app.route('/gps_information', methods=['GET'])
+def gps_information():
+    """ Database class with a method get_gps_data"""
+    gps_data = db.get_gps_data(db.db_connection)
+
+    if gps_data is None:
+        """ Handle the case where data retrieval failed"""
+        flash("Failed to retrieve GPS data", "error")
+        return render_template('gps_information_template.html', gps_data=[])
+
+    return render_template('gps_information_template.html', gps_data=gps_data)
+
+@app.route('/add_moto', methods=['GET', 'POST'])
+def add_moto():
+    if request.method == 'POST':
+        """Handle the POST request for adding a moto"""
+        plate = request.form.get('plate')
+        Model = request.form.get('Model')
+        Chassis_Number = request.form.get('Chassis_Number')
+        Engine_Number = request.form.get('Engine_Number')
+
+        """ Retrieve the selected GPS ID from the form"""
+        gps_id = request.form.get('gps_id')
+
+        """ Create a Moto object with the form data """
+        moto = Moto(
+            plate=plate,
+            Model=Model,
+            Chassis_Number=Chassis_Number,
+            Engine_Number=Engine_Number,
+            gps_id=gps_id
+        )
+
+        """ Add the moto to the database """
+        registration_result = db.Add_moto(moto)
+
+        if registration_result:
+            flash('Moto added successfully!')
+            return redirect(url_for('add_moto'))
+        else:
+            flash('Failed to add the moto. Please try again.')
+            return redirect(url_for('add_moto'))
+
+    else:
+        # Handle the GET request
+        gps_records = db.get_all_gps_records()
+
+        if gps_records is not None:
+            return render_template('add_moto.html', available_gps_records=gps_records)
+        else:
+            flash('Failed to retrieve GPS records. Please try again later.')
+            return redirect(url_for('add_moto'))
+
+@app.route('/moto_information', methods=['GET'])
+def moto_information():
+    db = Database(db_config)
+    moto_data = db.get_moto_data(db.db_connection)  # Call it on the db instance
+    db.close_connection()
+    return render_template('moto_information_template.html', moto_data=moto_data)
 
 @app.route('/search_emei', methods=['GET', 'POST'])
 def search_emei():

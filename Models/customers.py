@@ -20,7 +20,7 @@ class Customer():
         last_update(datetime) customer's  date updated.
     """
 
-    def __init__(self, first_name,last_name, email, active):
+    def __init__(self, first_name,last_name, email, active, gps_id):
         """
         Initialize a User object.
 
@@ -38,3 +38,4 @@ class Customer():
         self.last_name = last_name
         self.email = email
         self.active = active
+        self.gps_id = gps_id

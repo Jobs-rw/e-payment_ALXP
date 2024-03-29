@@ -5,6 +5,8 @@ This module defines the Database class, which provides functionality for interac
 with a MySQL database for a stock management system.
 """
 import mysql.connector
+from datetime import datetime
+from flask import request
 
 db_config = {
     'user': 'root',
@@ -159,6 +161,95 @@ class Database:
         query = "SELECT * FROM customers WHERE id = %s"
         values = (customer_id,)
         return self.fetch_one(query, values)
+    def get_customer_create_date(self, customer_id):
+        """
+        Retrieve the create_date of a customer from the database.
+
+        Args:
+            customer_id (int): The ID of the customer.
+
+        Returns:
+            datetime: The create_date of the customer.
+        """
+        query = "SELECT create_date FROM customer WHERE customer_id = %s"
+        result = self.fetch_one(query, (customer_id,))
+        if result:
+            return result[0]  # Assuming create_date is the first column in the result
+        else:
+            return None  # Customer not found or create_date is NULL
+    def insert_payment(self, payment):
+        """
+        Insert a new payment into the database.
+
+        Args:
+            payment (Payment): The Payment object to be inserted into the database.
+        """
+        # Retrieve the previous balance and over_credit for the customer
+        previous_balance = self.get_previous_balance(payment.customer_id)
+        previous_over_credit = self.get_previous_over_credit(payment.customer_id)
+
+        # Calculate the daily balance increase based on the daily credit
+        daily_credit = 300  # Assuming daily credit is 300 fr per day
+        daily_balance_increase = daily_credit
+
+        # Calculate the new balance including the daily balance increase and amount_paid
+        new_balance = previous_balance + daily_balance_increase - payment.amount_paid
+        if new_balance > previous_over_credit:
+            over_credit = new_balance - previous_over_credit
+            new_balance -= over_credit
+        else:
+            over_credit = 0
+
+        # Insert the payment with the calculated values
+        insert_query = """
+            INSERT INTO payment( customer_id, amount_paid, over_credit, balance)
+            VALUES (%s, %s, %s, %s)
+        """
+        values = ( payment.customer_id, payment.amount_paid, over_credit,
+              new_balance)
+        try:
+            self.execute(insert_query, values)
+            return True  # Insertion successful
+        except Exception as e:
+            print(f"Error inserting payment: {e}")
+            return False  # Insertion failed
+    def daily_charges(self, customer_id, daily_credit):
+        """Charge the customer daily."""
+        pass
+
+    def get_previous_balance(self, customer_id):
+        """
+        Retrieve the previous balance for the given customer.
+
+        Args:
+            customer_id (int): The ID of the customer.
+
+        Returns:
+            float: The previous balance for the customer.
+        """
+        query = "SELECT balance FROM payment WHERE customer_id = %s ORDER BY payment_date DESC LIMIT 1"
+        result = self.query(query, (customer_id,))
+        if result:
+            return result[0][0]  # Assuming the balance is stored in the first column of the result
+        else:
+            return 0  # Return 0 if no previous balance is found
+
+    def get_previous_over_credit(self, customer_id):
+        """
+        Retrieve the previous over credit for the given customer.
+
+        Args:
+            customer_id (int): The ID of the customer.
+
+        Returns:
+            float: The previous over credit for the customer.
+        """
+        query = "SELECT over_credit FROM payment WHERE customer_id = %s ORDER BY payment_date DESC LIMIT 1"
+        result = self.query(query, (customer_id,))
+        if result:
+            return result[0][0]  # Assuming the over_credit is stored in the first column of the result
+        else:
+            return 0  # Return 0 if no previous over credit is found
 
     def Add_GPS(self, GPS):
         """

@@ -4,6 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register GPS Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;        
+        }
+    </style>
 </head>
 <body>
     <h2>Register GPS Tracker</h2>
@@ -18,7 +59,7 @@
         <input type="date" id="Activated_date" name="Activated_date" required>
         <br>
         <label for="GPS_Experied_date">GPS Expired Date:</label>
-        <input type="date" id=""GPS_Experied_date" name="GPS_Experied_date" required>
+        <input type="date" id="GPS_Experied_date" name="GPS_Experied_date" required>
         <br>
         <input type="submit" value="Register">
     </form>

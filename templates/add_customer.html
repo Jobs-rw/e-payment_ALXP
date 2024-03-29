@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Customer</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -42,10 +43,21 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+	 .back-btn {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-
+<a class="back-btn" href="/">Back to Home</a>
 <h2>Add Customer</h2>
 
 <form action="/add_customer" method="POST">

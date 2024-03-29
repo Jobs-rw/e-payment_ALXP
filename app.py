@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from Models.engine.db_manager import Database
 from Models.engine.user_manager import UserManager
 from Models.user import User
+from Models.payment import Payment
 from datetime import datetime, timedelta
 from Models.customers import Customer
 from werkzeug.exceptions import BadRequest
@@ -218,6 +219,69 @@ def login():
     else:
         # Handle the case where 'username' or 'password' is not present in the form data
         return render_template('login.html', message='Invalid form data. Please try again.')
+@app.route('/insert_payment', methods=['POST','GET'])
+def insert_payment():
+    if request.method == 'POST':
+        # Retrieve form data
+        customer_id = request.form['customer_id']
+        amount_paid_str = request.form['amount_paid']
+        
+        # Check if customer_id and amount_paid are empty
+        if not customer_id.strip():
+            flash('Customer ID cannot be empty.', 'error')
+            return redirect(url_for('insert_payment'))
+        if not amount_paid_str.strip():
+            flash('Amount paid cannot be empty.', 'error')
+            return redirect(url_for('insert_payment'))
+
+        try:
+            amount_paid = float(amount_paid_str)
+        except ValueError:
+            flash('Invalid amount paid value.', 'error')
+            return redirect(url_for('insert_payment'))
+
+        # Calculate daily credit
+        daily_credit = 300  # Adjust this value if needed
+        create_date = db.get_customer_create_date(customer_id)
+        if create_date:
+            days_since_creation = (datetime.now().date() - create_date.date()).days
+            daily_balance_increase = daily_credit * days_since_creation
+        else:
+            daily_balance_increase = 0
+        # Create a Payment object with form data
+        payment = Payment( customer_id, amount_paid)
+        db.insert_payment(payment)
+
+        # Retrieve previous balance and over_credit for the customer
+        previous_balance = db.get_previous_balance(customer_id)
+        previous_over_credit = db.get_previous_over_credit(customer_id)
+
+        # Perform the rest of the payment insertion logic here
+        # (Calculate new balance, over_credit, and insert payment into the database)
+
+        # Example of performing the payment insertion logic
+        # Calculate the new balance
+        new_balance = previous_balance + daily_balance_increase - amount_paid
+        # Ensure new_balance and over_credit are non-negative
+        if new_balance < 0:
+            over_credit = max(-new_balance, previous_over_credit)
+            new_balance = max(0, previous_over_credit - over_credit)
+        else:
+            over_credit = 0
+
+        # Insert payment into the database
+        if db.insert_payment(payment):
+            # Redirect to a success page or home page
+            flash('Payment inserted successfully', 'success')
+            print("ppayment ", payment)
+            return redirect(url_for('insert_payment'))
+        else:
+            # Handle insertion failure
+            flash('Failed to insert payment', 'error')
+            return redirect(url_for('insert_payment'))
+
+    # Render the form template
+    return render_template('insert_payment.html')
 
 
 @app.route('/register_tracker', methods=['GET', 'POST'])
